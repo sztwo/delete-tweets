@@ -1,0 +1,15 @@
+version: "3"
+services:
+  node:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    command: ash
+    tty: true
+    volumes:
+      - ./:/delete-tweets:cached
+      - node_modules:/delete-tweets/node_modules:delegated
+    working_dir: /delete-tweets
+
+volumes:
+  node_modules:

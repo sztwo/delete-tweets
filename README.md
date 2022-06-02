@@ -27,6 +27,24 @@ Twitterのアーカイブから削除候補のTweetsを抽出する補助ツー�
     yarn install
     yarn bootstrap
 
+### Install on Docker
+
+Docker を利用して手元の環境を構築する場合、以下を実行します。
+
+    docker-compose up
+    docker-compose exec node yarn bootstrap
+
+- docker での実行をする場合、これ以降全ての yarn コマンドの前に `docker-compose exec node` を追加してください。
+  例えば `yarn import-twitter-archives` は `docker-compose exec node yarn import-twitter-archives` となります。
+
+デバッグ:
+
+    docker-compose run --rm node ash
+
+docker サーバー停止:
+
+    docker-compose down
+
 ## Usage
 
 次のステップでTweetsを削除します。
