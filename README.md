@@ -1,24 +1,24 @@
 # delete-tweets
 
-Twitterのアーカイブから削除候補のTweetsを抽出する補助ツールと削除するツール。
+Twitter のアーカイブから削除候補の Tweets を抽出する補助ツールと削除するツール。
 
 - :warning: 削除候補の抽出は基本的に過剰にかかるようになっています。細かいところは辞書などで調整してください。
-- :warning: Tweetsの削除をすると復元はできないので、自己責任で削除してください。
+- :warning: Tweets の削除をすると復元はできないので、自己責任で削除してください。
 
 ## Features
 
-- Twitterの[データアーカイブ](https://help.twitter.com/ja/managing-your-account/how-to-download-your-twitter-archive)を使った削除の対応
+- Twitter の[データアーカイブ](https://help.twitter.com/ja/managing-your-account/how-to-download-your-twitter-archive)を使った削除の対応
 - 自然言語、感情極性値ベースのフィルターでの絞り込みの対応
   - 許可リスト、不許可リスト、ネガティブポジティブ(感情極性値ベース)のフィルタリング、[放送禁止用語](https://github.com/hata6502/textlint-rule-no-hoso-kinshi-yogo)、[不適切表現](https://github.com/textlint-ja/textlint-rule-ja-no-inappropriate-words)
-- 絞り込んだ結果のみをTwitterから削除
+- 絞り込んだ結果のみを Twitter から削除
 - 削除済みの履歴を使った絞り込みのキャッシュ
-  - Tweetsを削除して、辞書を更新して、また絞り込みと何度も繰り返し処理ができる
+  - Tweets を削除して、辞書を更新して、また絞り込みと何度も繰り返し処理ができる
 
 ## 必要なもの
 
 - Node.js 18+
-- [全ツイート履歴をダウンロードしたzipファイル](https://help.twitter.com/ja/managing-your-account/how-to-download-your-twitter-archive)
-- [Twitter V2 APIのクライアント](https://developer.twitter.com)のAPIキー
+- [全ツイート履歴をダウンロードした zip ファイル](https://help.twitter.com/ja/managing-your-account/how-to-download-your-twitter-archive)
+- [Twitter V2 API のクライアント](https://developer.twitter.com)の API キー
 
 ## Install
 
@@ -47,19 +47,19 @@ docker サーバー停止:
 
 ## Usage
 
-次のステップでTweetsを削除します。
+次のステップで Tweets を削除します。
 
-1. Import Archive - TwitterのアーカイブからTweetsデータの作成
-2. Detect Tweets - Tweetsデータをフィルタリングして削除候補のTweetsデータを作成
-3. Delete Tweets - 削除対象のTweetsを削除
+1. Import Archive - Twitter のアーカイブから Tweets データの作成
+2. Detect Tweets - Tweets データをフィルタリングして削除候補の Tweets データを作成
+3. Delete Tweets - 削除対象の Tweets を削除
 
-削除後は、`data/deleted-twwets.txt` に削除したTweetのIDが記録されます。
+削除後は、`data/deleted-twwets.txt` に削除した Tweet の ID が記録されます。
 すでに削除済みの場合は、次から無視されるので、2 ~ 3 を繰り返し実行できるようにデザインしています。
 
 ### Import Archive
 
-1. [全ツイート履歴をダウンロードする方法](https://help.twitter.com/ja/managing-your-account/how-to-download-your-twitter-archive)を参考にTwitterのアーカイブをリクエストします
-2. Twitterのアーカイブ(`twitter-*.zip`)をダウンロードして展開します
+1. [全ツイート履歴をダウンロードする方法](https://help.twitter.com/ja/managing-your-account/how-to-download-your-twitter-archive)を参考に Twitter のアーカイブをリクエストします
+2. Twitter のアーカイブ(`twitter-*.zip`)をダウンロードして展開します
 3. 中に含まれる `tweeet*.js` を `twitter-archives/` ディレクトリにコピーします
 
 ```
@@ -75,7 +75,7 @@ twitter-archives/
 
 ### Detect Tweets
 
-`yarn detect` コマンドで、削除候補のTweetsデータを `data/will-delete-tweets.json` として作成できます。
+`yarn detect` コマンドで、削除候補の Tweets データを `data/will-delete-tweets.json` として作成できます。
 
     # all tweets
     yarn detect
@@ -84,24 +84,24 @@ twitter-archives/
     # 2015-01-01 ~ 2016-01-01
     $ yarn detect --fromDate 2015-01-01 --toDate 2016-01-01
 
-`yarn detect`は `--fromDate YYYY-MM-DD` と `--toDate YYYY-MM-DD` で対象のTweetsの日付範囲を指定できます。
+`yarn detect`は `--fromDate YYYY-MM-DD` と `--toDate YYYY-MM-DD` で対象の Tweets の日付範囲を指定できます。
 
 削除候補を推定する実装アルゴリズムは次の通りです。
 
-- [x] textlintでの[放送禁止用語](https://github.com/hata6502/textlint-rule-no-hoso-kinshi-yogo)、[不適切表現](https://github.com/textlint-ja/textlint-rule-ja-no-inappropriate-words)のチェック
+- [x] textlint での[放送禁止用語](https://github.com/hata6502/textlint-rule-no-hoso-kinshi-yogo)、[不適切表現](https://github.com/textlint-ja/textlint-rule-ja-no-inappropriate-words)のチェック
 - [x] ネガティブ(感情極性値ベース)の推定
 - [x] ユーザー定義の許可リスト、不許可リスト
 
 [config.js](./config.js)でそれぞれの仕組みを利用するかの設定ができます。
 
-:memo: 基本的にfalse positiveを含んだ過剰な削除候補を作成します。削除候補をチェックして実際に削除する候補のみを `data/will-delete-tweets.json` に残してください。
+:memo: 基本的に false positive を含んだ過剰な削除候補を作成します。削除候補をチェックして実際に削除する候補のみを `data/will-delete-tweets.json` に残してください。
 
 ユーザー定義の辞書で削除候補に追加、削除できます。
 次のファイルに定義することで、自動的に`yarn detect`が処理します。
 
 #### `allow-id.yaml`
 
-削除しないTweetの`id`を指定できます。
+削除しない Tweet の`id`を指定できます。
 
 たとえば、`https://twitter.com/twitter/status/123456765432` を削除対象から外す場合は次のように定義できます。
 
@@ -111,7 +111,7 @@ twitter-archives/
 
 #### `disallow.yaml`
 
-Tweetsに含まれていたら削除対象とする辞書を定義します。
+Tweets に含まれていたら削除対象とする辞書を定義します。
 不許可リストには、文字列または[RegExp-like String](https://github.com/textlint/regexp-string-matcher#regexp-like-string)ベースの正規表現の配列を指定できます。
 
 マッチ対象は `tweeet.text` の値のみです。
@@ -126,10 +126,10 @@ Tweetsに含まれていたら削除対象とする辞書を定義します。
 
 #### `allow.yaml`
 
-`disallow.yaml`やtextlintでNGとなった場合にも、マッチした範囲が`allow.yaml`で許可されている場合は、削除対象から外せます。
+`disallow.yaml`や textlint で NG となった場合にも、マッチした範囲が`allow.yaml`で許可されている場合は、削除対象から外せます。
 許可リストには、文字列または[RegExp-like String](https://github.com/textlint/regexp-string-matcher#regexp-like-string)ベースの正規表現の配列を指定できます。
 
-:memo: `allow.yaml`で定義した辞書が`tweet.text` に含まれているから無条件にOKではなく、あくまでNGとなった範囲がが許可された範囲に含まれていれば、OKという実装になってる
+:memo: `allow.yaml`で定義した辞書が`tweet.text` に含まれているから無条件に OK ではなく、あくまで NG となった範囲がが許可された範囲に含まれていれば、OK という実装になってる
 
 ```yaml
 - エディター # 特定の単語はOK
@@ -137,7 +137,7 @@ Tweetsに含まれていたら削除対象とする辞書を定義します。
 - /.*example\.com.*/ # example.com を含むならOK
 ```
 
-例) 次のように`disallow.yaml`で `クソ` という単語をNGとしてしまうと、`ダークソウル`もNGとなってしまう。
+例) 次のように`disallow.yaml`で `クソ` という単語を NG としてしまうと、`ダークソウル`も NG となってしまう。
 この場合は、`allow.yaml` に `ダークソウル` を定義することで、`ダークソウル`は許可される。
 
 `disallow.yaml`:
@@ -154,8 +154,8 @@ Tweetsに含まれていたら削除対象とする辞書を定義します。
 
 実装の詳細:
 
-`disallow.yaml`によって、2から3までの範囲がNGとして報告される。
-`allow.yaml`によって、0から5までの範囲はたとえNGがあっても例外として無視する。
+`disallow.yaml`によって、2 から 3 までの範囲が NG として報告される。
+`allow.yaml`によって、0 から 5 までの範囲はたとえ NG があっても例外として無視する。
 
 ```shell
 |０|１|２|３|４|５|６|７|８|９|
@@ -175,9 +175,9 @@ Steps:
 
 ### Delete tweets
 
-`yarn detect`で作成した `data/will-delete-tweets.json` にかかれているTweetsを実際に削除します。
+`yarn detect`で作成した `data/will-delete-tweets.json` にかかれている Tweets を実際に削除します。
 
-`.env` ファイルを作成し、[Twitter V2 APIのクライアント](https://developer.twitter.com)を作成して、そのクライアントのAPI KeyとAccess Tokenを入れて下さい。
+`.env` ファイルを作成し、[Twitter V2 API のクライアント](https://developer.twitter.com)を作成して、そのクライアントの API Key と Access Token を入れて下さい。
 
 ```
 TWITTER_APP_KEY="x"
@@ -186,15 +186,15 @@ TWITTER_ACCESS_TOKEN="x"
 TWITTER_ACCESS_SECRET="x"
 ```
 
-`yarn delete-tweets` を実行すると、 `data/will-delete-tweets.json` に書かれたTweetsを0.5秒間隔で削除していきます。
+`yarn delete-tweets` を実行すると、 `data/will-delete-tweets.json` に書かれた Tweets を 0.5 秒間隔で削除していきます。
 
     yarn delete-tweets # It delete tweets actually
 
-:warning: Tweetsを削除すると復元はできません。 `data/will-delete-tweets.json` には削除したい対象だけを残してください。
-TwitterのAPIを大量に叩く可能性があるので、自己責任で実行してください。
+:warning: Tweets を削除すると復元はできません。 `data/will-delete-tweets.json` には削除したい対象だけを残してください。
+Twitter の API を大量に叩く可能性があるので、自己責任で実行してください。
 
-:memo: 削除したTweetsは`data/deleted-twwets.txt`にIDが記録されます。
-途中で削除を停止した場合も続きから実行できます。Rate Limitにかかった場合は自動で停止するつもりですが、そうじゃなかったらIssueを作ってください。
+:memo: 削除した Tweets は`data/deleted-twwets.txt`に ID が記録されます。
+途中で削除を停止した場合も続きから実行できます。Rate Limit にかかった場合は自動で停止するつもりですが、そうじゃなかったら Issue を作ってください。
 
 ## Debug
 
@@ -210,7 +210,7 @@ Group by error's `reason`:
 cat data/will-delete-tweets.json | jq -s "group_by(.reason)[] |  {(.[0].reason): [.[] | .]}"
 ```
 
-Group by error's `reason` and count it 
+Group by error's `reason` and count it
 
 ```shell
 cat data/will-delete-tweets.json | jq -s "[group_by(.reason)[] | {reason: .[0].reason, count: length }] | sort_by(.count) | reverse"
@@ -231,7 +231,7 @@ cat data/will-delete-tweets.json | jq -s "[group_by(.reason)[] | {favorite_count
 Remove specific errors
 
 ```shell
-cat data/will-delete-tweets.json | jq -s -c 'group_by(.reason)[] | select(.[0].reason | contains("感情極性値") | not) | .[]' > data/will-delete-tweets.updated.json 
+cat data/will-delete-tweets.json | jq -s -c 'group_by(.reason)[] | select(.[0].reason | contains("感情極性値") | not) | .[]' > data/will-delete-tweets.updated.json
 ```
 
 Test a text from stdin
@@ -241,11 +241,11 @@ echo "いやらしい文章" | yarn test-detect
 # 感情極性値が0.3未満
 # [ 'textlint-rule-ja-no-inappropriate-words: 不適切表現「いやらしい」が含まれています。' ]
 
- ```
+```
 
 ## Related
 
-- [azu/mytweets: Search your all tweets.](https://github.com/azu/mytweets)
+-   [azu/mytweets: Search your all tweets.](https://github.com/azu/mytweets)
 
 ## Changelog
 
@@ -271,7 +271,7 @@ For bugs and feature requests, [please create an issue](https://github.com/azu/d
 
 ## Author
 
-- azu: [GitHub](https://github.com/azu), [Twitter](https://twitter.com/azu_re)
+-   azu: [GitHub](https://github.com/azu), [Twitter](https://twitter.com/azu_re)
 
 ## License
 
