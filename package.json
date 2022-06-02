@@ -55,7 +55,20 @@
     "printWidth": 120,
     "singleQuote": false,
     "tabWidth": 4,
-    "trailingComma": "none"
+    "trailingComma": "none",
+    "overrides": [
+      {
+        "files": [
+          "package.json",
+          "tsconfig.json",
+          "docker-compose.yml",
+          "README.md"
+        ],
+        "options": {
+          "tabWidth": 2
+        }
+      }
+    ]
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.1",

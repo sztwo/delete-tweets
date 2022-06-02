@@ -3,6 +3,7 @@ allow-id.yaml
 disallow.yaml
 data/*
 twitter-archives/*
+twitter-*.zip
 
 ### https://raw.github.com/github/gitignore/d2c1bb2b9c72ead618c9f6a48280ebc7a8e0dff6/Node.gitignore
 
@@ -170,3 +171,7 @@ fabric.properties
 # Build files
 /lib
 /module
+
+
+# Mac OS
+.DS_Store
