@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "newLine": "LF",
@@ -10,10 +10,7 @@
     "sourceMap": true,
     "declaration": true,
     "jsx": "preserve",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     /* Strict Type-Checking Options */
     "strict": true,
     /* Additional Checks */
@@ -26,11 +23,6 @@
     /* Report errors for fallthrough cases in switch statement. */
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "**/*"
-  ],
-  "exclude": [
-    ".git",
-    "node_modules"
-  ]
+  "include": ["**/*"],
+  "exclude": [".git", "node_modules"]
 }
